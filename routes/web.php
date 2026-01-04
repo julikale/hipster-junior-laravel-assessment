@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AuthController as AdminAuth;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Customer\AuthController as CustomerAuth;
 
 /*
@@ -32,6 +33,11 @@ Route::prefix('admin')->group(function () {
         Route::get('dashboard', [DashboardController::class, 'dashboard'])
             ->name('admin.dashboard');
         Route::post('logout', [AdminAuth::class, 'logout'])->name('admin.logout');
+    });
+
+    Route::middleware('auth:admin')->prefix('admin')->group(function () {
+    Route::resource('products', ProductController::class)
+        ->names('admin.products');
     });
 });
 
