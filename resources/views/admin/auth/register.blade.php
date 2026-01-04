@@ -41,7 +41,12 @@
             <small style="color:red;">{{ $message }}</small>
         @enderror
     </div>
+     <br>
 
+    <div>
+        <label>Confirm Password</label><br>
+        <input type="password" name="password_confirmation">
+    </div>
     <br>
 
     <button type="submit">Register</button>

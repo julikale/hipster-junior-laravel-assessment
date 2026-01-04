@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AuthController as AdminAuth;
+use App\Http\Controllers\Customer\AuthController as CustomerAuth;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,5 +29,27 @@ Route::prefix('admin')->group(function () {
     Route::middleware('auth:admin')->group(function () {
         Route::get('dashboard', fn() => view('admin.dashboard'))->name('admin.dashboard');
         Route::post('logout', [AdminAuth::class, 'logout'])->name('admin.logout');
+    });
+});
+
+
+Route::prefix('customer')->group(function () {
+
+    Route::get('register', [CustomerAuth::class, 'showRegister'])
+        ->name('customer.register');
+
+    Route::post('register', [CustomerAuth::class, 'register']);
+
+    Route::get('login', [CustomerAuth::class, 'showLogin'])
+        ->name('customer.login');
+
+    Route::post('login', [CustomerAuth::class, 'login']);
+
+    Route::middleware('auth:customer')->group(function () {
+        Route::get('dashboard', fn () => view('customer.dashboard'))
+            ->name('customer.dashboard');
+
+        Route::post('logout', [CustomerAuth::class, 'logout'])
+            ->name('customer.logout');
     });
 });

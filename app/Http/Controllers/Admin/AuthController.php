@@ -38,14 +38,20 @@ class AuthController extends Controller
     {
         $request->validate([
             'email' => 'required|email',
-            'password' => 'required',
+            'password' => 'required|min:6',
         ]);
 
-        if (Auth::guard('admin')->attempt($request->only('email','password'))) {
+        if (Auth::guard('admin')->attempt(
+            $request->only('email', 'password'),
+            $request->filled('remember')
+        )) {
+            $request->session()->regenerate();
             return redirect()->route('admin.dashboard');
         }
 
-        return back()->withErrors(['email' => 'Invalid credentials']);
+        return back()->withErrors([
+            'login_error' => 'Invalid email or password',
+        ])->withInput($request->only('email'));
     }
 
     public function logout()
