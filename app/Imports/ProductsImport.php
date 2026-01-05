@@ -7,8 +7,9 @@ use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class ProductsImport implements ToModel, WithChunkReading, WithHeadingRow, WithValidation
+class ProductsImport implements ToModel, WithChunkReading, WithHeadingRow, WithValidation,ShouldQueue
 {
     public function model(array $row)
     {
