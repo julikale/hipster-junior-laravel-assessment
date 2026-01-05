@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AuthController as AdminAuth;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ProductImportController;
 use App\Http\Controllers\Customer\AuthController as CustomerAuth;
 
 /*
@@ -29,7 +30,7 @@ Route::prefix('admin')->group(function () {
     Route::post('login', [AdminAuth::class, 'login']);
 
     Route::middleware('auth:admin')->group(function () {
-        //Route::get('dashboard', fn() => view('admin.dashboard'))->name('admin.dashboard');
+        
         Route::get('dashboard', [DashboardController::class, 'dashboard'])
             ->name('admin.dashboard');
         Route::post('logout', [AdminAuth::class, 'logout'])->name('admin.logout');
@@ -38,6 +39,13 @@ Route::prefix('admin')->group(function () {
     Route::middleware('auth:admin')->prefix('admin')->group(function () {
     Route::resource('products', ProductController::class)
         ->names('admin.products');
+        
+    Route::get('products/import', [ProductImportController::class, 'index'])
+        ->name('admin.products.import');
+
+    Route::post('products/import', [ProductImportController::class, 'store'])
+        ->name('admin.products.import.store'); 
+
     });
 });
 
