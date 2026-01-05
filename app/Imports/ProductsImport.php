@@ -13,29 +13,27 @@ class ProductsImport implements ToModel, WithChunkReading, WithHeadingRow, WithV
     public function model(array $row)
     {
         return new Product([
-            'name' => $row['name'],
+            'name'        => $row['name'],
             'description' => $row['description'] ?? null,
-            'price' => $row['price'],
-            'category' => $row['category'],
-            'stock' => $row['stock'],
-            'image' => $row['image'] ?? 'default.png',
+            'price'       => $row['price'],
+            'category'    => $row['category'],
+            'stock'       => $row['stock'],
+            'image'       => $row['image'] ?? 'default.png', // ✅ default image
         ]);
     }
 
     public function rules(): array
     {
         return [
-            'name' => 'required',
-            'price' => 'required|numeric',
-            'category' => 'required',
-            'stock' => 'required|integer',
+            'name'     => 'required|string',
+            'price'    => 'required|numeric|min:0',
+            'category' => 'required|string',
+            'stock'    => 'required|integer|min:0',
         ];
     }
 
     public function chunkSize(): int
     {
-        return 1000;
+        return 1000; // ✅ chunked processing
     }
 }
-
-

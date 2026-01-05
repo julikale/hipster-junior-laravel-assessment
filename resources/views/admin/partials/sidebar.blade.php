@@ -5,7 +5,7 @@
         🏠 Dashboard
     </a>
 
-    <a href="">
+    <a href="{{ route('admin.products.index') }}">
         📦 Products
     </a>
 
