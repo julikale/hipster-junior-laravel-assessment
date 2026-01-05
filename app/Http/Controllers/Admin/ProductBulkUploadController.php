@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -7,13 +6,15 @@ use Illuminate\Http\Request;
 use App\Imports\ProductsImport;
 use Maatwebsite\Excel\Facades\Excel;
 
-class ProductImportController extends Controller
+class ProductBulkUploadController extends Controller
 {
-    public function index()
+    // Show upload page
+    public function create()
     {
-        return view('admin.products.import');
+        return view('admin.products.bulk-upload');
     }
 
+    // Handle upload
     public function store(Request $request)
     {
         $request->validate([
@@ -22,7 +23,6 @@ class ProductImportController extends Controller
 
         Excel::queueImport(new ProductsImport, $request->file('file'));
 
-        return back()->with('success', 'Bulk import started successfully.');
+        return back()->with('success', 'Bulk upload started successfully.');
     }
 }
-

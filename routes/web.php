@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AuthController as AdminAuth;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
-use App\Http\Controllers\Admin\ProductImportController;
+use App\Http\Controllers\Admin\ProductBulkUploadController;
 use App\Http\Controllers\Customer\AuthController as CustomerAuth;
 
 /*
@@ -36,16 +36,21 @@ Route::prefix('admin')->group(function () {
         Route::post('logout', [AdminAuth::class, 'logout'])->name('admin.logout');
     });
 
-    Route::middleware('auth:admin')->prefix('admin')->group(function () {
-    Route::resource('products', ProductController::class)
-        ->names('admin.products');
-        
-    Route::get('products/import', [ProductImportController::class, 'index'])
-        ->name('admin.products.import');
+    Route::middleware('auth:admin')
+    ->prefix('admin')
+    ->as('admin.')
+    ->group(function () {
 
-    Route::post('products/import', [ProductImportController::class, 'store'])
-        ->name('admin.products.import.store'); 
+        // Product CRUD
+        Route::resource('products', ProductController::class)
+            ->except(['show']);
 
+        // Bulk Upload (separate route)
+        Route::get('product-bulk-upload', [ProductBulkUploadController::class, 'create'])
+            ->name('products.bulk.create');
+
+        Route::post('product-bulk-upload', [ProductBulkUploadController::class, 'store'])
+            ->name('products.bulk.store');
     });
 });
 

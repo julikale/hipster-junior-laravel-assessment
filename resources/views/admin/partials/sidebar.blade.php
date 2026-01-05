@@ -9,6 +9,11 @@
         📦 Products
     </a>
 
+    <a href="{{ route('admin.products.bulk.create') }}">
+    ⬆️ Bulk Upload Products
+    </a>
+    
+
     <form method="POST" action="{{ route('admin.logout') }}">
         @csrf
         <button type="submit" class="logout-btn">
